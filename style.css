@@ -1,0 +1,43 @@
+body{
+
+  background-color: black;
+
+}
+
+
+h1{
+  color:white;
+  text-align: center;
+}
+
+td{
+  border:1px solid black;
+  height:60px;
+  width: 60px;
+}
+
+td.one{
+
+  background-color: whitesmoke;
+
+}
+
+td.two{
+
+  background-color:rgb(91, 132, 215); /*rgb(45,92,160);*/
+
+}
+
+table{
+
+  width:500px;
+  height:500px;
+  border:1px solid black;
+  border-collapse: collapse;
+  margin:0 auto;
+}
+
+img{
+  height:60px;
+  width: 60px;
+}
