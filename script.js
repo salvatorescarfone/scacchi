@@ -1,17 +1,19 @@
-var pi='',pf;
+var sel = false;
+var firstCell;
+
 function select(x,y){
-  //Arena arena = new Arena("arena");
-  alert(x.toString()+","+y.toString());
-  if(pi="")pi = document.getElementById(x.toString()+y.toString());
-  pf = document.getElementById(x.toString()+y.toString());
-  pf.innerHTML = 1;
-}
+  //alert(x.toString()+","+y.toString());
 
-var table = document.getElementById("arena");
-
-
-for(let i=0;i<table.rows.length-1;i++){
-  for(let j=0;j<table.cells.length-1;i++){
-    table.rows[i].cells[j].innerHTML = "swag";
+  if(!sel){
+    //cella selezionata, aspettare secondo click
+    sel = true;
+    firstCell = document.getElementById(x.toString()+y.toString()).firstChild;//oggetto immagine contenuta nella cella
   }
+  else{
+    //Secondo click, spostare la pedina
+    sel = false;
+    document.getElementById(x.toString()+y.toString()).firstChild.src = firstCell.src;//imposta src
+    firstCell.src = "img/vuota.png";//imposta immagine vuota
+  }
+
 }
