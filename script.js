@@ -1,5 +1,10 @@
 var sel = false;
 var firstCell;
+var ch;
+
+var url = window.location.href; //"file:///E:/1.Scacchi/code/index.html
+ch = url.search("code/")+5;
+url = url.substr(0,ch)+"img/";
 
 function select(x,y){
   //alert(x.toString()+","+y.toString());
@@ -7,8 +12,8 @@ function select(x,y){
   if(!sel){
     //cella selezionata, aspettare secondo click
     firstCell = document.getElementById(x.toString()+y.toString()).firstChild;
-    //Cella selezionata solo se non è vuota
-    if(firstCell.src != "file:///E:/1.Scacchi/code/img/vuota.png")
+
+    if(firstCell.src != url+"vuota.png")
       sel = true;
   }
   else{
