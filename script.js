@@ -6,14 +6,16 @@ function select(x,y){
 
   if(!sel){
     //cella selezionata, aspettare secondo click
-    sel = true;
-    firstCell = document.getElementById(x.toString()+y.toString()).firstChild;//oggetto immagine contenuta nella cella
+    firstCell = document.getElementById(x.toString()+y.toString()).firstChild;
+    //Cella selezionata solo se non è vuota
+    if(firstCell.src != "file:///E:/1.Scacchi/code/img/vuota.png")
+      sel = true;
   }
   else{
     //Secondo click, spostare la pedina
     sel = false;
-    document.getElementById(x.toString()+y.toString()).firstChild.src = firstCell.src;//imposta src
-    firstCell.src = "img/vuota.png";//imposta immagine vuota
+    document.getElementById(x.toString()+y.toString()).firstChild.src = firstCell.src;
+    firstCell.src = "img/vuota.png";
   }
 
 }
