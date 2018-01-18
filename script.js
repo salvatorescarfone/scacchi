@@ -1,6 +1,7 @@
 var sel = false;
 var turn = "b";
 var firstCell, secondCell;
+var pezzo1,pezzo2;
 
 //controllo dinamico immagine
 function getUrl(x){
@@ -13,6 +14,47 @@ var url = getUrl(window.location.href); //"file:///E:/1.Scacchi/code/index.html
 
 function Piece(path){
 
+  this.path = path;
+
+  this.setType = function(){
+
+    var x = this.path.replace(url,"");
+
+    alert(x);
+
+    if(this.team == "b")
+      x.replace("_b.png","");
+    else
+      x.replace("_n.png","");
+
+    return x;
+  }
+  this.setTeam = function(){
+    if(this.path.search("b.png") != -1)
+      return "b";
+    else{
+      if(this.path.search("n.png") != -1)
+        return "n";
+      else
+        return "v";
+    }
+  }
+
+  this.type = this.setType();
+  this.team = this.setTeam();
+
+  //alert(this.type + " " + this.team);
+
+  this.move = function(){
+
+    switch(this.type){
+
+
+    }
+
+  }
+
+
 
 
 }
@@ -23,12 +65,14 @@ function select(x,y){
     //cella selezionata, aspettare secondo click
     firstCell = document.getElementById(x.toString()+y.toString()).firstChild;
 
+    //Creazione primo pezzo
+    pezzo1 = new Piece(firstCell.src);
+
     //se è bianca ed è il turno dei bianchi
     if(firstCell.src.search("b.png") != -1 && turn == "b"){
 
       if(firstCell.src != url+"vuota.png"){
         sel = true;
-        turn = "n";
         firstCell.parentElement.style.boxShadow ="inset 0px -1px 19px 9px rgba(250,236,85,1)";
       }
 
@@ -37,7 +81,6 @@ function select(x,y){
 
       if(firstCell.src != url+"vuota.png"){
         sel = true;
-        turn = "b";
         firstCell.parentElement.style.boxShadow ="inset 0px -1px 19px 9px rgba(250,236,85,1)";
       }
 
@@ -49,27 +92,34 @@ function select(x,y){
 
     secondCell= document.getElementById(x.toString()+y.toString()).firstChild;
 
+    pezzo2 = new Piece(secondCell.src);
+
+
     //controllo deselezione di una stessa pedina
-    if(firstCell.src == secondCell.src){
+    if(pezzo1.team == pezzo2.team){
       firstCell.parentElement.style.boxShadow = "";
       sel = false;
     }
 
-    if(firstCell.src.search("b.png")!=-1){//Se la prima cella è bianca
-      if(secondCell.src.search("b.png")==-1){// e la seconda è nera
+    if(pezzo1.team == "b"){//Se la prima cella è bianca
+      if(pezzo2.team == "n" || pezzo2.team == "v"){// e la seconda è nera
         secondCell.src = firstCell.src;
         firstCell.src = "img/vuota.png";
         firstCell.parentElement.style.boxShadow = "";
         sel = false;
+        turn = "n";
+        document.getElementById("turno").innerHTML = "Turno dei neri.";
       }
     }
     else{
       //visto che la prima è nera
-      if(secondCell.src.search("n.png")==-1){// e la seconda è bianca
+      if(pezzo2.team == "b" || pezzo2.team == "v"){// e la seconda è bianca
         secondCell.src = firstCell.src;
         firstCell.src = "img/vuota.png";
         firstCell.parentElement.style.boxShadow = "";
         sel = false;
+        turn = "b";
+        document.getElementById("turno").innerHTML = "Turno dei bianchi.";
       }
     }
   }
