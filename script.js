@@ -11,22 +11,12 @@ function getUrl(x){
 
 var url = getUrl(window.location.href); //"file:///E:/1.Scacchi/code/index.html
 
-
-function Piece(path){
+function Piece(path,x,y){
 
   this.path = path;
+  this.x = x;
+  this.y = y;
 
-  this.setType = function(){
-
-    var x = this.path.replace(url,"");
-
-    if(this.team == "b")
-      x.replace("_b.png","");
-    else
-      x.replace("_n.png","");
-
-    return x;
-  }
   this.setTeam = function(){
     if(this.path.search("b.png") != -1)
       return "b";
@@ -37,18 +27,91 @@ function Piece(path){
         return "v";
     }
   }
+  this.setType = function(){
 
-  this.type = this.setType();
+    var z = "";
+    z = this.path.replace(url,"");
+
+    if(this.team == "b")
+      z = z.replace("_b.png","");
+    else
+      z = z.replace("_n.png","");
+
+    return z;
+  }
+
   this.team = this.setTeam();
+  this.type = this.setType();
 
+  this.move = function(x2,y2){
 
-  //alert(this.type + " " + this.team);
+    var mossa = false;
 
-  this.move = function(){
+    /*
+    alert(this.x);
+    alert(this.y);
+    alert(x2);
+    alert(y2);
+    */
 
     switch(this.type){
 
+      case "pedone":
+        var first = false;
+
+        if(this.team == "b"){
+
+          if(this.x == x2+1){
+            if(this.y == y2){
+              if(pezzo2.team == "v")
+                mossa = true;
+            }
+            else
+              if(pezzo2.team != "v")
+                mossa = true;
+
+          }
+
+        }
+        else{
+
+          if(this.x == x2-1){
+            if(this.y == y2){
+              if(pezzo2.team == "v")
+                mossa=true;
+            }
+            else
+              if(pezzo2.team != "v")
+                mossa = true;
+
+          }
+
+        }
+
+        break;
+
+      case "torre":
+
+        break;
+
+      case "cavallo":
+
+        break;
+
+      case "alfiere":
+
+        break;
+
+      case "regina":
+
+        break;
+
+      case "re":
+
+        break;
     }
+
+    return mossa;
 
   }
 
@@ -61,9 +124,9 @@ function select(x,y){
     firstCell = document.getElementById(x.toString()+y.toString()).firstChild;
 
     //Creazione primo pezzo
-    pezzo1 = new Piece(firstCell.src);
+    pezzo1 = new Piece(firstCell.src,x,y);
 
-    //se è bianca ed è il turno dei bianchi
+    //se la pedina selezionata rispetta il turno
     if(pezzo1.team == turn){
       if(pezzo1.team != "v"){
         sel = true;
@@ -77,7 +140,7 @@ function select(x,y){
     //Secondo click, spostare la pedina
 
     secondCell= document.getElementById(x.toString()+y.toString()).firstChild;
-    pezzo2 = new Piece(secondCell.src);
+    pezzo2 = new Piece(secondCell.src,x,y);
 
     //controllo deselezione di una stessa pedina
     if(pezzo1.team == pezzo2.team){
@@ -86,19 +149,24 @@ function select(x,y){
     }
   	else{
 
-  			secondCell.src = firstCell.src;
-  			firstCell.src = "img/vuota.png";
-  			firstCell.parentElement.style.boxShadow = "";
-  			sel = false;
+        if(pezzo1.move(x,y)){
+          secondCell.src = firstCell.src;
+    			firstCell.src = "img/vuota.png";
+    			firstCell.parentElement.style.boxShadow = "";
+    			sel = false;
 
-  			if (pezzo1.team == "b"){
-    			turn = "n";
-    			document.getElementById("turno").innerHTML = "Turno dei neri.";
-  			}
-        else{
-    			turn = "b";
-    			document.getElementById("turno").innerHTML = "Turno dei bianchi.";
-  			}
+    			if (pezzo1.team == "b"){
+      			turn = "n";
+      			document.getElementById("turno").innerHTML = "Turno dei neri.";
+    			}
+          else{
+      			turn = "b";
+      			document.getElementById("turno").innerHTML = "Turno dei bianchi.";
+    			}
+
+        }
+
   		}
 	}
 }
+
