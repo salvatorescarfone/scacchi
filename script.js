@@ -20,8 +20,6 @@ function Piece(path){
 
     var x = this.path.replace(url,"");
 
-    alert(x);
-
     if(this.team == "b")
       x.replace("_b.png","");
     else
@@ -43,19 +41,16 @@ function Piece(path){
   this.type = this.setType();
   this.team = this.setTeam();
 
+
   //alert(this.type + " " + this.team);
 
   this.move = function(){
 
     switch(this.type){
 
-
     }
 
   }
-
-
-
 
 }
 
@@ -69,17 +64,8 @@ function select(x,y){
     pezzo1 = new Piece(firstCell.src);
 
     //se è bianca ed è il turno dei bianchi
-    if(firstCell.src.search("b.png") != -1 && turn == "b"){
-
-      if(firstCell.src != url+"vuota.png"){
-        sel = true;
-        firstCell.parentElement.style.boxShadow ="inset 0px -1px 19px 9px rgba(250,236,85,1)";
-      }
-
-    }//se è nera ed è il turno dei neri
-    else if(firstCell.src.search("n.png") != -1 && turn == "n"){
-
-      if(firstCell.src != url+"vuota.png"){
+    if(pezzo1.team == turn){
+      if(pezzo1.team != "v"){
         sel = true;
         firstCell.parentElement.style.boxShadow ="inset 0px -1px 19px 9px rgba(250,236,85,1)";
       }
@@ -91,38 +77,28 @@ function select(x,y){
     //Secondo click, spostare la pedina
 
     secondCell= document.getElementById(x.toString()+y.toString()).firstChild;
-
     pezzo2 = new Piece(secondCell.src);
-
 
     //controllo deselezione di una stessa pedina
     if(pezzo1.team == pezzo2.team){
       firstCell.parentElement.style.boxShadow = "";
       sel = false;
     }
+  	else{
 
-    if(pezzo1.team == "b"){//Se la prima cella è bianca
-      if(pezzo2.team == "n" || pezzo2.team == "v"){// e la seconda è nera
-        secondCell.src = firstCell.src;
-        firstCell.src = "img/vuota.png";
-        firstCell.parentElement.style.boxShadow = "";
-        sel = false;
-        turn = "n";
-        document.getElementById("turno").innerHTML = "Turno dei neri.";
-      }
-    }
-    else{
-      //visto che la prima è nera
-      if(pezzo2.team == "b" || pezzo2.team == "v"){// e la seconda è bianca
-        secondCell.src = firstCell.src;
-        firstCell.src = "img/vuota.png";
-        firstCell.parentElement.style.boxShadow = "";
-        sel = false;
-        turn = "b";
-        document.getElementById("turno").innerHTML = "Turno dei bianchi.";
-      }
-    }
-  }
+  			secondCell.src = firstCell.src;
+  			firstCell.src = "img/vuota.png";
+  			firstCell.parentElement.style.boxShadow = "";
+  			sel = false;
 
-
+  			if (pezzo1.team == "b"){
+    			turn = "n";
+    			document.getElementById("turno").innerHTML = "Turno dei neri.";
+  			}
+        else{
+    			turn = "b";
+    			document.getElementById("turno").innerHTML = "Turno dei bianchi.";
+  			}
+  		}
+	}
 }
