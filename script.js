@@ -58,47 +58,124 @@ function Piece(path,x,y){
 
       case "pedone":
         var first = false;
+        var dx = 1;
 
         if(this.team == "b"){
 
-          if(this.x == x2+1){
-            if(this.y == y2){
-              if(pezzo2.team == "v")
-                mossa = true;
+          if(this.x == 6 && this.x-x2 == 2){
+            var pezzox = new Piece(document.getElementById((this.x-1).toString()+this.y.toString()).firstChild.src,this.x-1,this.y);
+            if(pezzox.team == "v"){
+              mossa = true;
+              dx = 2;
             }
-            else
-              if(pezzo2.team != "v")
-                mossa = true;
+          }
+          else{
+
+            if(this.x == x2+dx){
+              if(this.y == y2){
+                if(pezzo2.team == "v")
+                  mossa = true;
+              }
+              else
+                if(pezzo2.team != "v")
+                  mossa = true;
+
+            }
 
           }
 
         }
         else{
 
-          if(this.x == x2-1){
-            if(this.y == y2){
-              if(pezzo2.team == "v")
-                mossa=true;
+          if(this.x == 1 && x2-this.x == 2){
+            var pezzox = new Piece(document.getElementById((this.x+1).toString()+this.y.toString()).firstChild.src,this.x+1,this.y);
+            if(pezzox.team == "v"){
+              mossa = true;
+              dx = 2;
             }
-            else
-              if(pezzo2.team != "v")
-                mossa = true;
-
           }
+          else{
 
+            if(this.x == x2-dx){
+              if(this.y == y2){
+                if(pezzo2.team == "v")
+                  mossa=true;
+              }
+              else
+                if(pezzo2.team != "v")
+                  mossa = true;
+            }
+          }
         }
 
         break;
 
       case "torre":
 
+        var fl = true;
+
+        //movimento verticale
+        if(this.y == y2){
+
+          if(this.x > x2){
+
+            for(let i=this.x-1;i>x2;i--){
+              var pezzox = new Piece(document.getElementById(i.toString()+y2.toString()).firstChild.src,i,y2);
+              if(pezzox.team != "v")
+                fl = false;
+            }
+
+          }
+          else{
+            for(let i=this.x+1;i<x2;i++){
+              var pezzox = new Piece(document.getElementById(i.toString()+y2.toString()).firstChild.src,i,y2);
+              if(pezzox.team != "v")
+                fl = false;
+            }
+
+          }
+
+          mossa = fl;
+
+        }
+
+        //movimento orizzontale
+        if(this.x == x2){
+
+          if(this.y < y2){
+            for(let i=this.y+1;i<y2;i++){
+              var pezzox = new Piece(document.getElementById(x2.toString()+i.toString()).firstChild.src,x2,i);
+              if(pezzox.team != "v")
+                fl = false;
+            }
+
+          }
+          else{
+            for(let i=this.y-1;i>y2;i--){
+              var pezzox = new Piece(document.getElementById(x2.toString()+i.toString()).firstChild.src,x2,i);
+              if(pezzox.team != "v")
+                fl = false;
+            }
+
+          }
+
+          mossa = fl;
+
+        }
+
         break;
 
       case "cavallo":
 
+      if((Math.abs(x2-this.x) == 2  && Math.abs(y2-this.y) == 1) || Math.abs(y2-this.y) == 2 && Math.abs(x2-this.x) == 1)
+        mossa = true;
+
         break;
 
       case "alfiere":
+
+        if(Math.abs(this.x - x2) == Math.abs(this.y - y2))
+          mossa = true;
 
         break;
 
