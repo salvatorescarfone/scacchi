@@ -47,13 +47,6 @@ function Piece(path,x,y){
 
     var mossa = false;
 
-    /*
-    alert(this.x);
-    alert(this.y);
-    alert(x2);
-    alert(y2);
-    */
-
     switch(this.type){
 
       case "pedone":
@@ -62,9 +55,10 @@ function Piece(path,x,y){
 
         if(this.team == "b"){
 
-          if(this.x == 6 && this.x-x2 == 2){
+          if(this.x == 6 && this.x-x2 == 2 && y2 == this.y){
             var pezzox = new Piece(document.getElementById((this.x-1).toString()+this.y.toString()).firstChild.src,this.x-1,this.y);
-            if(pezzox.team == "v"){
+            var pezzox2 = new Piece(document.getElementById((this.x-2).toString()+this.y.toString()).firstChild.src,this.x-2,this.y);
+            if(pezzox.team == "v" && pezzox2.team == "v"){
               mossa = true;
               dx = 2;
             }
@@ -87,9 +81,10 @@ function Piece(path,x,y){
         }
         else{
 
-          if(this.x == 1 && x2-this.x == 2){
+          if(this.x == 1 && x2-this.x == 2 && y2 == this.y){
             var pezzox = new Piece(document.getElementById((this.x+1).toString()+this.y.toString()).firstChild.src,this.x+1,this.y);
-            if(pezzox.team == "v"){
+            var pezzox2 = new Piece(document.getElementById((this.x+2).toString()+this.y.toString()).firstChild.src,this.x+2,this.y);
+            if(pezzox.team == "v" && pezzox2.team == "v"){
               mossa = true;
               dx = 2;
             }
@@ -167,23 +162,182 @@ function Piece(path,x,y){
 
       case "cavallo":
 
-      if((Math.abs(x2-this.x) == 2  && Math.abs(y2-this.y) == 1) || Math.abs(y2-this.y) == 2 && Math.abs(x2-this.x) == 1)
-        mossa = true;
-
+        if((Math.abs(x2-this.x) == 2  && Math.abs(y2-this.y) == 1) || Math.abs(y2-this.y) == 2 && Math.abs(x2-this.x) == 1)
+          mossa = true;
         break;
 
       case "alfiere":
 
-        if(Math.abs(this.x - x2) == Math.abs(this.y - y2))
-          mossa = true;
+        var fl = true;
+
+        if(Math.abs(this.x - x2) == Math.abs(this.y - y2)){
+
+          if(x2<this.x){//su
+            if(y2>this.y){//dx
+
+              //alert("up|dx");
+
+              for(let i=this.x-1, j=this.y+1; i>x2, j<y2; i--, j++){
+                  var pezzox = new Piece(document.getElementById(i.toString()+j.toString()).firstChild.src,i,j);
+                  if(pezzox.team != "v")
+                    fl = false;
+              }
+
+            }
+            else{//sx
+
+              for(let i=this.x-1, j=this.y-1; i>x2, j>y2; i--, j--){
+                  var pezzox = new Piece(document.getElementById(i.toString()+j.toString()).firstChild.src,i,j);
+                  if(pezzox.team != "v")
+                    fl = false;
+              }
+
+            }
+
+            mossa = fl;
+          }
+          else{//giu
+            if(y2>this.y){//dx
+
+
+              for(let i=this.x+1, j=this.y+1; i<x2, j<y2; i++, j++){
+                  var pezzox = new Piece(document.getElementById(i.toString()+j.toString()).firstChild.src,i,j);
+                  if(pezzox.team != "v")
+                    fl = false;
+              }
+
+            }
+            else{//sx
+
+              for(let i=this.x+1, j=this.y-1; i<x2, j>y2; i++, j--){
+                  var pezzox = new Piece(document.getElementById(i.toString()+j.toString()).firstChild.src,i,j);
+                  if(pezzox.team != "v")
+                    fl = false;
+              }
+
+            }
+
+            mossa = fl;
+          }
+
+
+        }
+
 
         break;
 
       case "regina":
+        var fl = true;
+
+        //movimento verticale
+        if(this.y == y2){
+
+          if(this.x > x2){
+
+            for(let i=this.x-1;i>x2;i--){
+              var pezzox = new Piece(document.getElementById(i.toString()+y2.toString()).firstChild.src,i,y2);
+              if(pezzox.team != "v")
+                fl = false;
+            }
+
+          }
+          else{
+            for(let i=this.x+1;i<x2;i++){
+              var pezzox = new Piece(document.getElementById(i.toString()+y2.toString()).firstChild.src,i,y2);
+              if(pezzox.team != "v")
+                fl = false;
+            }
+
+          }
+
+          mossa = fl;
+
+        }
+
+        //movimento orizzontale
+        if(this.x == x2){
+
+          if(this.y < y2){
+            for(let i=this.y+1;i<y2;i++){
+              var pezzox = new Piece(document.getElementById(x2.toString()+i.toString()).firstChild.src,x2,i);
+              if(pezzox.team != "v")
+                fl = false;
+            }
+
+          }
+          else{
+            for(let i=this.y-1;i>y2;i--){
+              var pezzox = new Piece(document.getElementById(x2.toString()+i.toString()).firstChild.src,x2,i);
+              if(pezzox.team != "v")
+                fl = false;
+            }
+
+          }
+
+          mossa = fl;
+
+        }
+
+
+        if(Math.abs(this.x - x2) == Math.abs(this.y - y2)){
+
+          if(x2<this.x){//su
+            if(y2>this.y){//dx
+
+              //alert("up|dx");
+
+              for(let i=this.x-1, j=this.y+1; i>x2, j<y2; i--, j++){
+                  var pezzox = new Piece(document.getElementById(i.toString()+j.toString()).firstChild.src,i,j);
+                  if(pezzox.team != "v")
+                    fl = false;
+              }
+
+            }
+            else{//sx
+
+              for(let i=this.x-1, j=this.y-1; i>x2, j>y2; i--, j--){
+                  var pezzox = new Piece(document.getElementById(i.toString()+j.toString()).firstChild.src,i,j);
+                  if(pezzox.team != "v")
+                    fl = false;
+              }
+
+            }
+
+            mossa = fl;
+          }
+          else{//giu
+            if(y2>this.y){//dx
+
+
+              for(let i=this.x+1, j=this.y+1; i<x2, j<y2; i++, j++){
+                  var pezzox = new Piece(document.getElementById(i.toString()+j.toString()).firstChild.src,i,j);
+                  if(pezzox.team != "v")
+                    fl = false;
+              }
+
+            }
+            else{//sx
+
+              for(let i=this.x+1, j=this.y-1; i<x2, j>y2; i++, j--){
+                  var pezzox = new Piece(document.getElementById(i.toString()+j.toString()).firstChild.src,i,j);
+                  if(pezzox.team != "v")
+                    fl = false;
+              }
+
+            }
+
+            mossa = fl;
+          }
+
+
+        }
 
         break;
 
       case "re":
+
+        if(Math.abs(this.x-x2)<2 && Math.abs(this.y-y2)<2)
+          mossa = true;
 
         break;
     }
@@ -240,6 +394,7 @@ function select(x,y){
       			turn = "b";
       			document.getElementById("turno").innerHTML = "Turno dei bianchi.";
     			}
+
 
         }
 
