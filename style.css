@@ -11,14 +11,15 @@ h1{
 }
 
 td{
-  border:1px solid black;
-  height:60px;
-  width: 60px;
+  height:80px;
+  width: 80px;
+  text-align: center;
+  color:white;
 }
 
 td.one{
 
-  background-color: whitesmoke;
+  background-color: white;
 
 }
 
@@ -29,15 +30,12 @@ td.two{
 }
 
 table{
-
-  width:500px;
-  height:500px;
-  border:1px solid black;
   border-collapse: collapse;
-  margin:0 auto;
+  margin: 0 auto;
 }
 
 img{
-  height:60px;
-  width: 60px;
+
+  height:64px;
+  width: 64px;
 }
