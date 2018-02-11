@@ -153,10 +153,21 @@ function Piece(path,x,y){
             }
 
           }
-
           mossa = fl;
 
         }
+        /*-----------------------------------------------------------------------------------------------------------------------------------------------
+        var p=true;
+        for(let i=x2;i<=0;i++){
+          alert ("sdope");
+          var pezzox = new Piece(document.getElementById(i.toString()+y2.toString()).firstChild.src,i,y2);
+          if(pezzox.type == "re" && p == true)
+            document.getElementById(i.toString()+y2.toString()).parentElement.style.boxShadow ="inset 0px -1px 19px 9px rgba(255,0,0,1)";
+          if (pezzox.team != "v")
+            p==false;
+        }-----------------------------------------------------------------------------------------------------------------------------------------------
+        */
+
 
         break;
 
@@ -348,8 +359,19 @@ function Piece(path,x,y){
 
 }
 
-function select(x,y){
+function checkmate(){
+  csc = 0;
+  for(let i=0;i<=7;i++){
+    for(let j=0;j<=7;j++){
+      var pezzos = new Piece(document.getElementById(i.toString()+j.toString()).firstChild.src,i,j);
+      if (pezzos.type == "re") csc++;
+    }
+  }
+  if(csc==2)return false;
+  else return true;
+}
 
+function select(x,y){
   if(!sel){
     //cella selezionata, aspettare secondo click
     firstCell = document.getElementById(x.toString()+y.toString()).firstChild;
@@ -400,5 +422,10 @@ function select(x,y){
         }
 
   		}
+      
+    if(checkmate()){
+      if(turn == "b") window.open("vittoria/vince_nero.html");
+      else window.open("vittoria/vince_bianco.html");
+    }
 	}
 }
